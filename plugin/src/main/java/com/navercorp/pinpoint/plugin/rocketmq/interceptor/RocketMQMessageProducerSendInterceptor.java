@@ -16,7 +16,6 @@
 
 package com.navercorp.pinpoint.plugin.rocketmq.interceptor;
 
-import com.aliyun.openservices.ons.api.Message;
 import com.navercorp.pinpoint.bootstrap.config.Filter;
 import com.navercorp.pinpoint.bootstrap.context.MethodDescriptor;
 import com.navercorp.pinpoint.bootstrap.context.SpanEventRecorder;
@@ -26,9 +25,10 @@ import com.navercorp.pinpoint.bootstrap.context.TraceId;
 import com.navercorp.pinpoint.bootstrap.interceptor.AroundInterceptor;
 import com.navercorp.pinpoint.bootstrap.logging.PLogger;
 import com.navercorp.pinpoint.bootstrap.logging.PLoggerFactory;
-import com.navercorp.pinpoint.plugin.rocketmq.OnsClientHeader;
 import com.navercorp.pinpoint.plugin.rocketmq.RocketMQClientConstants;
-import com.navercorp.pinpoint.plugin.rocketmq.descriptor.RocketMqProducerEntryMethodDescriptor;
+import com.navercorp.pinpoint.plugin.rocketmq.RocketMQClientHeader;
+import com.navercorp.pinpoint.plugin.rocketmq.descriptor.RocketMQProducerEntryMethodDescriptor;
+import org.apache.rocketmq.common.message.Message;
 
 
 /**
@@ -38,7 +38,7 @@ public class RocketMQMessageProducerSendInterceptor implements AroundInterceptor
 
     private final PLogger logger = PLoggerFactory.getLogger(this.getClass());
     private final boolean isDebug = logger.isDebugEnabled();
-    private static final RocketMqProducerEntryMethodDescriptor PRODUCER_ENTRY_METHOD_DESCRIPTOR = new RocketMqProducerEntryMethodDescriptor();
+    private static final RocketMQProducerEntryMethodDescriptor PRODUCER_ENTRY_METHOD_DESCRIPTOR = new RocketMQProducerEntryMethodDescriptor();
 
     private final TraceContext traceContext;
     private final MethodDescriptor descriptor;
@@ -72,15 +72,15 @@ public class RocketMQMessageProducerSendInterceptor implements AroundInterceptor
                 TraceId nextId = trace.getTraceId().getNextTraceId();
                 spanEventRecorder.recordNextSpanId(nextId.getSpanId());
 
-                OnsClientHeader.setTraceId(message, nextId.getTransactionId());
-                OnsClientHeader.setSpanId(message, nextId.getSpanId());
-                OnsClientHeader.setParentSpanId(message, nextId.getParentSpanId());
-                OnsClientHeader.setFlags(message, nextId.getFlags());
-                OnsClientHeader.setParentApplicationName(message, traceContext.getApplicationName());
-                OnsClientHeader.setParentApplicationType(message, traceContext.getServerTypeCode());
+                RocketMQClientHeader.setTraceId(message, nextId.getTransactionId());
+                RocketMQClientHeader.setSpanId(message, nextId.getSpanId());
+                RocketMQClientHeader.setParentSpanId(message, nextId.getParentSpanId());
+                RocketMQClientHeader.setFlags(message, nextId.getFlags());
+                RocketMQClientHeader.setParentApplicationName(message, traceContext.getApplicationName());
+                RocketMQClientHeader.setParentApplicationType(message, traceContext.getServerTypeCode());
 
             } else {
-                OnsClientHeader.setSampled(message, false);
+                RocketMQClientHeader.setSampled(message, false);
             }
         } catch (Throwable t) {
             logger.warn("BEFORE. Cause:{}", t.getMessage(), t);

@@ -16,6 +16,7 @@
 
 package com.navercorp.pinpoint.plugin.rocketmq.interceptor;
 
+import com.aliyun.openservices.ons.api.Message;
 import com.navercorp.pinpoint.bootstrap.config.Filter;
 import com.navercorp.pinpoint.bootstrap.context.MethodDescriptor;
 import com.navercorp.pinpoint.bootstrap.context.SpanEventRecorder;
@@ -25,25 +26,24 @@ import com.navercorp.pinpoint.bootstrap.context.TraceId;
 import com.navercorp.pinpoint.bootstrap.interceptor.AroundInterceptor;
 import com.navercorp.pinpoint.bootstrap.logging.PLogger;
 import com.navercorp.pinpoint.bootstrap.logging.PLoggerFactory;
+import com.navercorp.pinpoint.plugin.rocketmq.OnsClientHeader;
 import com.navercorp.pinpoint.plugin.rocketmq.RocketMQClientConstants;
-import com.navercorp.pinpoint.plugin.rocketmq.RocketMQClientHeader;
-import com.navercorp.pinpoint.plugin.rocketmq.descriptor.RocketMqProducerEntryMethodDescriptor;
-import org.apache.rocketmq.common.message.Message;
+import com.navercorp.pinpoint.plugin.rocketmq.descriptor.RocketMQProducerEntryMethodDescriptor;
 
 
 /**
  * @author 微风
  */
-public class OpenRocketMQMessageProducerSendInterceptor implements AroundInterceptor {
+public class OnsMessageProducerSendInterceptor implements AroundInterceptor {
 
     private final PLogger logger = PLoggerFactory.getLogger(this.getClass());
     private final boolean isDebug = logger.isDebugEnabled();
-    private static final RocketMqProducerEntryMethodDescriptor PRODUCER_ENTRY_METHOD_DESCRIPTOR = new RocketMqProducerEntryMethodDescriptor();
+    private static final RocketMQProducerEntryMethodDescriptor PRODUCER_ENTRY_METHOD_DESCRIPTOR = new RocketMQProducerEntryMethodDescriptor();
 
     private final TraceContext traceContext;
     private final MethodDescriptor descriptor;
 
-    public OpenRocketMQMessageProducerSendInterceptor(TraceContext traceContext, MethodDescriptor descriptor, Filter<String> excludeDestinationFilter) {
+    public OnsMessageProducerSendInterceptor(TraceContext traceContext, MethodDescriptor descriptor, Filter<String> excludeDestinationFilter) {
         this.traceContext = traceContext;
         this.descriptor = descriptor;
         traceContext.cacheApi(PRODUCER_ENTRY_METHOD_DESCRIPTOR);
@@ -72,15 +72,15 @@ public class OpenRocketMQMessageProducerSendInterceptor implements AroundInterce
                 TraceId nextId = trace.getTraceId().getNextTraceId();
                 spanEventRecorder.recordNextSpanId(nextId.getSpanId());
 
-                RocketMQClientHeader.setTraceId(message, nextId.getTransactionId());
-                RocketMQClientHeader.setSpanId(message, nextId.getSpanId());
-                RocketMQClientHeader.setParentSpanId(message, nextId.getParentSpanId());
-                RocketMQClientHeader.setFlags(message, nextId.getFlags());
-                RocketMQClientHeader.setParentApplicationName(message, traceContext.getApplicationName());
-                RocketMQClientHeader.setParentApplicationType(message, traceContext.getServerTypeCode());
+                OnsClientHeader.setTraceId(message, nextId.getTransactionId());
+                OnsClientHeader.setSpanId(message, nextId.getSpanId());
+                OnsClientHeader.setParentSpanId(message, nextId.getParentSpanId());
+                OnsClientHeader.setFlags(message, nextId.getFlags());
+                OnsClientHeader.setParentApplicationName(message, traceContext.getApplicationName());
+                OnsClientHeader.setParentApplicationType(message, traceContext.getServerTypeCode());
 
             } else {
-                RocketMQClientHeader.setSampled(message, false);
+                OnsClientHeader.setSampled(message, false);
             }
         } catch (Throwable t) {
             logger.warn("BEFORE. Cause:{}", t.getMessage(), t);

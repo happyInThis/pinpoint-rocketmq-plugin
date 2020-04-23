@@ -22,7 +22,7 @@ import com.navercorp.pinpoint.common.trace.MethodType;
 /**
  * @author 微风
  */
-public class RocketMqProducerEntryMethodDescriptor implements MethodDescriptor {
+public class RocketMQProducerEntryMethodDescriptor implements MethodDescriptor {
 
     private int apiId = 0;
     private int type = MethodType.WEB_REQUEST;
@@ -59,7 +59,7 @@ public class RocketMqProducerEntryMethodDescriptor implements MethodDescriptor {
 
     @Override
     public String getFullName() {
-        return RocketMqProducerEntryMethodDescriptor.class.getName();
+        return RocketMQProducerEntryMethodDescriptor.class.getName();
     }
 
     @Override

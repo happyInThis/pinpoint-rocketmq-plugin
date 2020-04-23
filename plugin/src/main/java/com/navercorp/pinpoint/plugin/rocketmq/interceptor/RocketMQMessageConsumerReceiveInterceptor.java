@@ -16,7 +16,6 @@
 
 package com.navercorp.pinpoint.plugin.rocketmq.interceptor;
 
-import com.aliyun.openservices.shade.com.alibaba.rocketmq.common.message.MessageExt;
 import com.navercorp.pinpoint.bootstrap.context.MethodDescriptor;
 import com.navercorp.pinpoint.bootstrap.context.SpanEventRecorder;
 import com.navercorp.pinpoint.bootstrap.context.SpanId;
@@ -28,9 +27,10 @@ import com.navercorp.pinpoint.bootstrap.interceptor.SpanRecursiveAroundIntercept
 import com.navercorp.pinpoint.bootstrap.logging.PLogger;
 import com.navercorp.pinpoint.bootstrap.logging.PLoggerFactory;
 import com.navercorp.pinpoint.common.trace.ServiceType;
-import com.navercorp.pinpoint.plugin.rocketmq.OnsClientHeaderV2;
 import com.navercorp.pinpoint.plugin.rocketmq.RocketMQClientConstants;
+import com.navercorp.pinpoint.plugin.rocketmq.RocketMQClientHeaderV2;
 import com.navercorp.pinpoint.plugin.rocketmq.descriptor.RocketMQConsumerEntryMethodDescriptor;
+import org.apache.rocketmq.common.message.MessageExt;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -89,13 +89,13 @@ public class RocketMQMessageConsumerReceiveInterceptor extends SpanRecursiveArou
         }
     }
     private TraceId populateTraceIdFromRequest(MessageExt message) {
-        String transactionId = OnsClientHeaderV2.getTraceId(message, null);
+        String transactionId = RocketMQClientHeaderV2.getTraceId(message, null);
         if (transactionId == null) {
             return null;
         }
-        long parentSpanId = OnsClientHeaderV2.getParentSpanId(message, SpanId.NULL);
-        long spanId = OnsClientHeaderV2.getSpanId(message, SpanId.NULL);
-        short flags = OnsClientHeaderV2.getFlags(message, (short) 0);
+        long parentSpanId = RocketMQClientHeaderV2.getParentSpanId(message, SpanId.NULL);
+        long spanId = RocketMQClientHeaderV2.getSpanId(message, SpanId.NULL);
+        short flags = RocketMQClientHeaderV2.getFlags(message, (short) 0);
         return traceContext.createTraceId(transactionId, parentSpanId, spanId, flags);
     }
 
@@ -114,9 +114,9 @@ public class RocketMQMessageConsumerReceiveInterceptor extends SpanRecursiveArou
 
         // If this transaction did not begin here, record parent(client who sent this request) information
         if (!recorder.isRoot()) {
-            final String parentApplicationName = OnsClientHeaderV2.getParentApplicationName(message, ServiceType.UNDEFINED.getName());
+            final String parentApplicationName = RocketMQClientHeaderV2.getParentApplicationName(message, ServiceType.UNDEFINED.getName());
             if (parentApplicationName != null) {
-                final short parentApplicationType = OnsClientHeaderV2.getParentApplicationType(message, ServiceType.UNDEFINED.getCode());
+                final short parentApplicationType = RocketMQClientHeaderV2.getParentApplicationType(message, ServiceType.UNDEFINED.getCode());
                 recorder.recordParentApplication(parentApplicationName, parentApplicationType);
             }
         }

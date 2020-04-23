@@ -70,10 +70,10 @@ public class RocketMQClientPlugin implements ProfilerPlugin, TransformTemplateAw
             @Override
             public byte[] doInTransform(Instrumentor instrumentor, ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws InstrumentException {
                 InstrumentClass target = instrumentor.getInstrumentClass(loader, className, classfileBuffer);
-                logger.info("find Interceptor com.navercorp.pinpoint.plugin.rocketmq.interceptor.RocketMQMessageProducerSendInterceptor");
+                logger.info("find Interceptor com.navercorp.pinpoint.plugin.rocketmq.interceptor.OnsMessageProducerSendInterceptor");
                 InstrumentMethod method = target.getDeclaredMethod("send", "com.aliyun.openservices.ons.api.Message");
                 try {
-                    method.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.RocketMQMessageProducerSendInterceptor", va(excludeDestinationFilter), RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
+                    method.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.OnsMessageProducerSendInterceptor", va(excludeDestinationFilter), RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
                 } catch (Exception e) {
                     if (logger.isWarnEnabled()) {
                         logger.warn("Unsupported method " + method, e);
@@ -81,7 +81,7 @@ public class RocketMQClientPlugin implements ProfilerPlugin, TransformTemplateAw
                 }
                 method = target.getDeclaredMethod("sendOneway", "com.aliyun.openservices.ons.api.Message");
                 try {
-                    method.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.RocketMQMessageProducerSendInterceptor", va(excludeDestinationFilter), RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
+                    method.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.OnsMessageProducerSendInterceptor", va(excludeDestinationFilter), RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
                 } catch (Exception e) {
                     if (logger.isWarnEnabled()) {
                         logger.warn("Unsupported method " + method, e);
@@ -90,13 +90,13 @@ public class RocketMQClientPlugin implements ProfilerPlugin, TransformTemplateAw
 
                 method = target.getDeclaredMethod("sendAsync", "com.aliyun.openservices.ons.api.Message", "com.aliyun.openservices.ons.api.SendCallback");
                 try {
-                    method.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.RocketMQMessageProducerSendInterceptor", va(excludeDestinationFilter), RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
+                    method.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.OnsMessageProducerSendInterceptor", va(excludeDestinationFilter), RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
                 } catch (Exception e) {
                     if (logger.isWarnEnabled()) {
                         logger.warn("Unsupported method " + method, e);
                     }
                 }
-                logger.info("add Interceptor com.navercorp.pinpoint.plugin.rocketmq.interceptor.RocketMQMessageProducerSendInterceptor");
+                logger.info("add Interceptor com.navercorp.pinpoint.plugin.rocketmq.interceptor.OnsMessageProducerSendInterceptor");
 
                 return target.toBytecode();
             }
@@ -110,7 +110,7 @@ public class RocketMQClientPlugin implements ProfilerPlugin, TransformTemplateAw
                 logger.info("find Interceptor com.navercorp.pinpoint.plugin.rocketmq.interceptor.OpenRocketMQMessageProducerSendInterceptor");
                 InstrumentMethod method = target.getDeclaredMethod("send", "org.apache.rocketmq.common.message.Message");
                 try {
-                    method.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.OpenRocketMQMessageProducerSendInterceptor", va(excludeDestinationFilter), RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
+                    method.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.RocketMQMessageProducerSendInterceptor", va(excludeDestinationFilter), RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
                 } catch (Exception e) {
                     if (logger.isWarnEnabled()) {
                         logger.warn("Unsupported method " + method, e);
@@ -118,7 +118,7 @@ public class RocketMQClientPlugin implements ProfilerPlugin, TransformTemplateAw
                 }
                 method = target.getDeclaredMethod("send", "org.apache.rocketmq.common.message.Message", "java.lang.Long");
                 try {
-                    method.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.OpenRocketMQMessageProducerSendInterceptor", va(excludeDestinationFilter), RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
+                    method.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.RocketMQMessageProducerSendInterceptor", va(excludeDestinationFilter), RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
                 } catch (Exception e) {
                     if (logger.isWarnEnabled()) {
                         logger.warn("Unsupported method " + method, e);
@@ -127,7 +127,7 @@ public class RocketMQClientPlugin implements ProfilerPlugin, TransformTemplateAw
 
                 method = target.getDeclaredMethod("send", "org.apache.rocketmq.common.message.Message", "org.apache.rocketmq.common.message.MessageQueue");
                 try {
-                    method.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.OpenRocketMQMessageProducerSendInterceptor", va(excludeDestinationFilter), RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
+                    method.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.RocketMQMessageProducerSendInterceptor", va(excludeDestinationFilter), RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
                 } catch (Exception e) {
                     if (logger.isWarnEnabled()) {
                         logger.warn("Unsupported method " + method, e);
@@ -135,7 +135,7 @@ public class RocketMQClientPlugin implements ProfilerPlugin, TransformTemplateAw
                 }
                 method = target.getDeclaredMethod("send", "org.apache.rocketmq.common.message.Message", "org.apache.rocketmq.common.message.MessageQueue", "java.lang.Long");
                 try {
-                    method.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.OpenRocketMQMessageProducerSendInterceptor", va(excludeDestinationFilter), RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
+                    method.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.RocketMQMessageProducerSendInterceptor", va(excludeDestinationFilter), RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
                 } catch (Exception e) {
                     if (logger.isWarnEnabled()) {
                         logger.warn("Unsupported method " + method, e);
@@ -144,7 +144,7 @@ public class RocketMQClientPlugin implements ProfilerPlugin, TransformTemplateAw
 
                 method = target.getDeclaredMethod("send", "org.apache.rocketmq.common.message.Message", "org.apache.rocketmq.common.message.MessageQueue", "org.apache.rocketmq.client.producer.SendCallback");
                 try {
-                    method.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.OpenRocketMQMessageProducerSendInterceptor", va(excludeDestinationFilter), RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
+                    method.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.RocketMQMessageProducerSendInterceptor", va(excludeDestinationFilter), RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
                 } catch (Exception e) {
                     if (logger.isWarnEnabled()) {
                         logger.warn("Unsupported method " + method, e);
@@ -152,7 +152,7 @@ public class RocketMQClientPlugin implements ProfilerPlugin, TransformTemplateAw
                 }
                 method = target.getDeclaredMethod("send", "org.apache.rocketmq.common.message.Message", "org.apache.rocketmq.common.message.MessageQueue", "org.apache.rocketmq.client.producer.SendCallback", "java.lang.Long");
                 try {
-                    method.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.OpenRocketMQMessageProducerSendInterceptor", va(excludeDestinationFilter), RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
+                    method.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.RocketMQMessageProducerSendInterceptor", va(excludeDestinationFilter), RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
                 } catch (Exception e) {
                     if (logger.isWarnEnabled()) {
                         logger.warn("Unsupported method " + method, e);
@@ -160,7 +160,7 @@ public class RocketMQClientPlugin implements ProfilerPlugin, TransformTemplateAw
                 }
                 method = target.getDeclaredMethod("send", "org.apache.rocketmq.common.message.Message", "org.apache.rocketmq.client.producer.SendCallback");
                 try {
-                    method.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.OpenRocketMQMessageProducerSendInterceptor", va(excludeDestinationFilter), RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
+                    method.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.RocketMQMessageProducerSendInterceptor", va(excludeDestinationFilter), RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
                 } catch (Exception e) {
                     if (logger.isWarnEnabled()) {
                         logger.warn("Unsupported method " + method, e);
@@ -169,7 +169,7 @@ public class RocketMQClientPlugin implements ProfilerPlugin, TransformTemplateAw
 
                 method = target.getDeclaredMethod("send", "org.apache.rocketmq.common.message.Message", "org.apache.rocketmq.client.producer.SendCallback", "java.lang.Long");
                 try {
-                    method.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.OpenRocketMQMessageProducerSendInterceptor", va(excludeDestinationFilter), RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
+                    method.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.RocketMQMessageProducerSendInterceptor", va(excludeDestinationFilter), RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
                 } catch (Exception e) {
                     if (logger.isWarnEnabled()) {
                         logger.warn("Unsupported method " + method, e);
@@ -178,7 +178,7 @@ public class RocketMQClientPlugin implements ProfilerPlugin, TransformTemplateAw
 
                 method = target.getDeclaredMethod("sendOneway", "org.apache.rocketmq.common.message.Message");
                 try {
-                    method.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.OpenRocketMQMessageProducerSendInterceptor", va(excludeDestinationFilter), RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
+                    method.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.RocketMQMessageProducerSendInterceptor", va(excludeDestinationFilter), RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
                 } catch (Exception e) {
                     if (logger.isWarnEnabled()) {
                         logger.warn("Unsupported method " + method, e);
@@ -186,7 +186,7 @@ public class RocketMQClientPlugin implements ProfilerPlugin, TransformTemplateAw
                 }
                 method = target.getDeclaredMethod("sendOneway", "org.apache.rocketmq.common.message.Message", "org.apache.rocketmq.common.message.MessageQueue");
                 try {
-                    method.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.OpenRocketMQMessageProducerSendInterceptor", va(excludeDestinationFilter), RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
+                    method.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.RocketMQMessageProducerSendInterceptor", va(excludeDestinationFilter), RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
                 } catch (Exception e) {
                     if (logger.isWarnEnabled()) {
                         logger.warn("Unsupported method " + method, e);
@@ -195,13 +195,13 @@ public class RocketMQClientPlugin implements ProfilerPlugin, TransformTemplateAw
 
                 method = target.getDeclaredMethod("sendAsync", "org.apache.rocketmq.common.message.Message", "com.aliyun.openservices.ons.api.SendCallback");
                 try {
-                    method.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.OpenRocketMQMessageProducerSendInterceptor", va(excludeDestinationFilter), RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
+                    method.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.RocketMQMessageProducerSendInterceptor", va(excludeDestinationFilter), RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
                 } catch (Exception e) {
                     if (logger.isWarnEnabled()) {
                         logger.warn("Unsupported method " + method, e);
                     }
                 }
-                logger.info("add Interceptor com.navercorp.pinpoint.plugin.rocketmq.interceptor.OpenRocketMQMessageProducerSendInterceptor");
+                logger.info("add Interceptor com.navercorp.pinpoint.plugin.rocketmq.interceptor.RocketMQMessageProducerSendInterceptor");
 
                 return target.toBytecode();
             }
@@ -216,12 +216,12 @@ public class RocketMQClientPlugin implements ProfilerPlugin, TransformTemplateAw
             public byte[] doInTransform(Instrumentor instrumentor, ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws InstrumentException {
                 InstrumentClass target = instrumentor.getInstrumentClass(loader, className, classfileBuffer);
 
-                logger.info("find Interceptor com.navercorp.pinpoint.plugin.rocketmq.interceptor.RocketMQMessageConsumerReceiveInterceptor");
+                logger.info("find Interceptor com.navercorp.pinpoint.plugin.rocketmq.interceptor.OnsMessageConsumerReceiveInterceptor");
 
                 final InstrumentMethod consumeMessageMethod = target.getDeclaredMethod("consumeMessage", "java.util.List","com.aliyun.openservices.shade.com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext");
                 if (consumeMessageMethod != null) {
-                    consumeMessageMethod.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.RocketMQMessageConsumerReceiveInterceptor", RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
-                    logger.info("add Interceptor com.navercorp.pinpoint.plugin.rocketmq.interceptor.RocketMQMessageConsumerReceiveInterceptor");
+                    consumeMessageMethod.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.OnsMessageConsumerReceiveInterceptor", RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
+                    logger.info("add Interceptor com.navercorp.pinpoint.plugin.rocketmq.interceptor.OnsMessageConsumerReceiveInterceptor");
                 }
 
                 return target.toBytecode();
@@ -233,12 +233,12 @@ public class RocketMQClientPlugin implements ProfilerPlugin, TransformTemplateAw
             public byte[] doInTransform(Instrumentor instrumentor, ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws InstrumentException {
                 InstrumentClass target = instrumentor.getInstrumentClass(loader, className, classfileBuffer);
 
-                logger.info("find Interceptor com.navercorp.pinpoint.plugin.rocketmq.interceptor.RocketMQMessageConsumerReceiveInterceptor");
+                logger.info("find Interceptor com.navercorp.pinpoint.plugin.rocketmq.interceptor.OnsMessageConsumerReceiveInterceptor");
 
                 final InstrumentMethod consumeMessageMethod = target.getDeclaredMethod("consumeMessage", "java.util.List","com.aliyun.openservices.shade.com.alibaba.rocketmq.client.consumer.listener.ConsumeOrderlyContext");
                 if (consumeMessageMethod != null) {
-                    consumeMessageMethod.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.RocketMQMessageConsumerReceiveInterceptor", RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
-                    logger.info("add Interceptor com.navercorp.pinpoint.plugin.rocketmq.interceptor.RocketMQMessageConsumerReceiveInterceptor");
+                    consumeMessageMethod.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.OnsMessageConsumerReceiveInterceptor", RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
+                    logger.info("add Interceptor com.navercorp.pinpoint.plugin.rocketmq.interceptor.OnsMessageConsumerReceiveInterceptor");
                 }
 
                 return target.toBytecode();
@@ -250,12 +250,12 @@ public class RocketMQClientPlugin implements ProfilerPlugin, TransformTemplateAw
             public byte[] doInTransform(Instrumentor instrumentor, ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws InstrumentException {
                 InstrumentClass target = instrumentor.getInstrumentClass(loader, className, classfileBuffer);
 
-                logger.info("find Interceptor com.navercorp.pinpoint.plugin.rocketmq.interceptor.OpenRocketMQMessageConsumerReceiveInterceptor");
+                logger.info("find Interceptor com.navercorp.pinpoint.plugin.rocketmq.interceptor.RocketMQMessageConsumerReceiveInterceptor");
 
                 final InstrumentMethod consumeMessageMethod = target.getDeclaredMethod("consumeMessage", "java.util.List","org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext");
                 if (consumeMessageMethod != null) {
-                    consumeMessageMethod.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.OpenRocketMQMessageConsumerReceiveInterceptor", RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
-                    logger.info("add Interceptor com.navercorp.pinpoint.plugin.rocketmq.interceptor.OpenRocketMQMessageConsumerReceiveInterceptor");
+                    consumeMessageMethod.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.RocketMQMessageConsumerReceiveInterceptor", RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
+                    logger.info("add Interceptor com.navercorp.pinpoint.plugin.rocketmq.interceptor.RocketMQMessageConsumerReceiveInterceptor");
                 }
 
                 return target.toBytecode();
@@ -267,12 +267,12 @@ public class RocketMQClientPlugin implements ProfilerPlugin, TransformTemplateAw
             public byte[] doInTransform(Instrumentor instrumentor, ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws InstrumentException {
                 InstrumentClass target = instrumentor.getInstrumentClass(loader, className, classfileBuffer);
 
-                logger.info("find Interceptor com.navercorp.pinpoint.plugin.rocketmq.interceptor.OpenRocketMQMessageConsumerReceiveInterceptor");
+                logger.info("find Interceptor com.navercorp.pinpoint.plugin.rocketmq.interceptor.RocketMQMessageConsumerReceiveInterceptor");
 
                 final InstrumentMethod consumeMessageMethod = target.getDeclaredMethod("consumeMessage", "java.util.List","org.apache.rocketmq.client.consumer.listener.ConsumeOrderlyContext");
                 if (consumeMessageMethod != null) {
-                    consumeMessageMethod.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.OpenRocketMQMessageConsumerReceiveInterceptor", RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
-                    logger.info("add Interceptor com.navercorp.pinpoint.plugin.rocketmq.interceptor.OpenRocketMQMessageConsumerReceiveInterceptor");
+                    consumeMessageMethod.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.RocketMQMessageConsumerReceiveInterceptor", RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
+                    logger.info("add Interceptor com.navercorp.pinpoint.plugin.rocketmq.interceptor.RocketMQMessageConsumerReceiveInterceptor");
                 }
 
                 return target.toBytecode();
