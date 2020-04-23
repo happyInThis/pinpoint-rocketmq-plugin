@@ -102,6 +102,111 @@ public class RocketMQClientPlugin implements ProfilerPlugin, TransformTemplateAw
             }
         });
 
+        transformTemplate.transform("org.apache.rocketmq.client.producer.DefaultMQProducer", new TransformCallback() {
+
+            @Override
+            public byte[] doInTransform(Instrumentor instrumentor, ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws InstrumentException {
+                InstrumentClass target = instrumentor.getInstrumentClass(loader, className, classfileBuffer);
+                logger.info("find Interceptor com.navercorp.pinpoint.plugin.rocketmq.interceptor.OpenRocketMQMessageProducerSendInterceptor");
+                InstrumentMethod method = target.getDeclaredMethod("send", "org.apache.rocketmq.common.message.Message");
+                try {
+                    method.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.OpenRocketMQMessageProducerSendInterceptor", va(excludeDestinationFilter), RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
+                } catch (Exception e) {
+                    if (logger.isWarnEnabled()) {
+                        logger.warn("Unsupported method " + method, e);
+                    }
+                }
+                method = target.getDeclaredMethod("send", "org.apache.rocketmq.common.message.Message", "java.lang.Long");
+                try {
+                    method.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.OpenRocketMQMessageProducerSendInterceptor", va(excludeDestinationFilter), RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
+                } catch (Exception e) {
+                    if (logger.isWarnEnabled()) {
+                        logger.warn("Unsupported method " + method, e);
+                    }
+                }
+
+                method = target.getDeclaredMethod("send", "org.apache.rocketmq.common.message.Message", "org.apache.rocketmq.common.message.MessageQueue");
+                try {
+                    method.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.OpenRocketMQMessageProducerSendInterceptor", va(excludeDestinationFilter), RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
+                } catch (Exception e) {
+                    if (logger.isWarnEnabled()) {
+                        logger.warn("Unsupported method " + method, e);
+                    }
+                }
+                method = target.getDeclaredMethod("send", "org.apache.rocketmq.common.message.Message", "org.apache.rocketmq.common.message.MessageQueue", "java.lang.Long");
+                try {
+                    method.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.OpenRocketMQMessageProducerSendInterceptor", va(excludeDestinationFilter), RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
+                } catch (Exception e) {
+                    if (logger.isWarnEnabled()) {
+                        logger.warn("Unsupported method " + method, e);
+                    }
+                }
+
+                method = target.getDeclaredMethod("send", "org.apache.rocketmq.common.message.Message", "org.apache.rocketmq.common.message.MessageQueue", "org.apache.rocketmq.client.producer.SendCallback");
+                try {
+                    method.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.OpenRocketMQMessageProducerSendInterceptor", va(excludeDestinationFilter), RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
+                } catch (Exception e) {
+                    if (logger.isWarnEnabled()) {
+                        logger.warn("Unsupported method " + method, e);
+                    }
+                }
+                method = target.getDeclaredMethod("send", "org.apache.rocketmq.common.message.Message", "org.apache.rocketmq.common.message.MessageQueue", "org.apache.rocketmq.client.producer.SendCallback", "java.lang.Long");
+                try {
+                    method.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.OpenRocketMQMessageProducerSendInterceptor", va(excludeDestinationFilter), RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
+                } catch (Exception e) {
+                    if (logger.isWarnEnabled()) {
+                        logger.warn("Unsupported method " + method, e);
+                    }
+                }
+                method = target.getDeclaredMethod("send", "org.apache.rocketmq.common.message.Message", "org.apache.rocketmq.client.producer.SendCallback");
+                try {
+                    method.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.OpenRocketMQMessageProducerSendInterceptor", va(excludeDestinationFilter), RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
+                } catch (Exception e) {
+                    if (logger.isWarnEnabled()) {
+                        logger.warn("Unsupported method " + method, e);
+                    }
+                }
+
+                method = target.getDeclaredMethod("send", "org.apache.rocketmq.common.message.Message", "org.apache.rocketmq.client.producer.SendCallback", "java.lang.Long");
+                try {
+                    method.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.OpenRocketMQMessageProducerSendInterceptor", va(excludeDestinationFilter), RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
+                } catch (Exception e) {
+                    if (logger.isWarnEnabled()) {
+                        logger.warn("Unsupported method " + method, e);
+                    }
+                }
+
+                method = target.getDeclaredMethod("sendOneway", "org.apache.rocketmq.common.message.Message");
+                try {
+                    method.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.OpenRocketMQMessageProducerSendInterceptor", va(excludeDestinationFilter), RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
+                } catch (Exception e) {
+                    if (logger.isWarnEnabled()) {
+                        logger.warn("Unsupported method " + method, e);
+                    }
+                }
+                method = target.getDeclaredMethod("sendOneway", "org.apache.rocketmq.common.message.Message", "org.apache.rocketmq.common.message.MessageQueue");
+                try {
+                    method.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.OpenRocketMQMessageProducerSendInterceptor", va(excludeDestinationFilter), RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
+                } catch (Exception e) {
+                    if (logger.isWarnEnabled()) {
+                        logger.warn("Unsupported method " + method, e);
+                    }
+                }
+
+                method = target.getDeclaredMethod("sendAsync", "org.apache.rocketmq.common.message.Message", "com.aliyun.openservices.ons.api.SendCallback");
+                try {
+                    method.addScopedInterceptor("com.navercorp.pinpoint.plugin.rocketmq.interceptor.OpenRocketMQMessageProducerSendInterceptor", va(excludeDestinationFilter), RocketMQClientConstants.ROCKETMQ_CLIENT_SCOPE);
+                } catch (Exception e) {
+                    if (logger.isWarnEnabled()) {
+                        logger.warn("Unsupported method " + method, e);
+                    }
+                }
+                logger.info("add Interceptor com.navercorp.pinpoint.plugin.rocketmq.interceptor.OpenRocketMQMessageProducerSendInterceptor");
+
+                return target.toBytecode();
+            }
+        });
+
     }
 
     private void addConsumerEditor() {
